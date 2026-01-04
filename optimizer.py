@@ -329,7 +329,6 @@ def compute_irr(cash_flows: List[float]) -> Optional[float]:
 
 
 def irr_for_plan(
-    noi_yen: float,
     econ: EconomicsConfig,
     options: UnitOptions,
     irr_cfg: IRRConfig,
@@ -362,6 +361,17 @@ def irr_for_plan(
     return compute_irr(cash_flows)
 
 
+def objective_score(
+    objective: ObjectiveConfig,
+    gross_yield: float,
+    noi_yield: float,
+    waste_ratio: float,
+) -> float:
+    metric_value = gross_yield if objective.metric == "gross_yield" else noi_yield
+    penalty = 1 - objective.waste_penalty_rate * waste_ratio
+    return metric_value * penalty
+
+
 def evaluate_floors(
     land: LandConfig,
     build: BuildConfig,
@@ -383,22 +393,20 @@ def evaluate_floors(
     common_ratio = common_ratio_for_floors(build, floors)
     rentable_area = total_floor_area * (1 - common_ratio)
     best_result: Optional[PlanResult] = None
+    best_score: Optional[float] = None
     for units, waste_ratio in unit_mix_candidates(rentable_area, options, ordinance, search):
         annual_rent, mix = annual_rent_for_units(units, options)
-        waste_penalty = 1 - objective.waste_penalty_rate * waste_ratio
-        effective_rent = annual_rent * waste_penalty
         total_units = sum(count for _, count in units)
         construction = construction_cost(total_floor_area, floors, econ, total_units, options, build)
         soft = construction * econ.soft_cost_ratio
         contingency = construction * econ.contingency_ratio
         total_invest = econ.land_price_yen + construction + soft + contingency
-        egi = effective_rent * (1 - econ.vacancy_ratio)
+        egi = annual_rent * (1 - econ.vacancy_ratio)
         opex = egi * econ.opex_ratio + econ.property_tax_yen_per_year + options.extra_opex_per_unit_year_yen * total_units
         noi = egi - opex
-        gross_yield = effective_rent / total_invest if total_invest > 0 else 0
+        gross_yield = annual_rent / total_invest if total_invest > 0 else 0
         noi_yield = noi / total_invest if total_invest > 0 else 0
         irr = irr_for_plan(
-            noi,
             econ,
             options,
             irr_cfg,
@@ -408,6 +416,7 @@ def evaluate_floors(
             total_units,
             total_invest,
         )
+        score = objective_score(objective, gross_yield, noi_yield, waste_ratio)
         candidate = PlanResult(
             floors=floors,
             footprint_m2=round(footprint, 2),
@@ -429,8 +438,9 @@ def evaluate_floors(
             waste_ratio=round(waste_ratio, 4),
             notes=list(notes_base),
         )
-        if best_result is None or candidate.gross_yield > best_result.gross_yield:
+        if best_score is None or score > best_score:
             best_result = candidate
+            best_score = score
     return best_result
 
 
