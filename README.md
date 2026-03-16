@@ -19,6 +19,7 @@
 - `python -m app.cli doctor`
 - `python -m app.cli resume`
 - `PYTHONPATH=src python -m app.cli bootstrap-ai-affiliate`（AIアフィリエイト自動化の雛形生成）
+- `PYTHONPATH=src python -m app.cli run-affiliate-deterministic --input-jsonl <path> --output-dir <dir>`（API未使用の機械処理パイプライン）
 
 ## 実運用注意
 - `COMPLIANCE_APPROVED=true` まで crawl はロックされます。

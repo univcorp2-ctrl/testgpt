@@ -227,5 +227,23 @@ def bootstrap_ai_affiliate_cmd(base_dir: str) -> None:
     click.echo(f"created files: {len(result.created_files)}")
 
 
+@app.command(name="run-affiliate-deterministic")
+@click.option("--input-jsonl", required=True, type=click.Path(exists=True, dir_okay=False, path_type=str))
+@click.option(
+    "--output-dir",
+    default="ai_affiliate_automation/runs",
+    show_default=True,
+    type=click.Path(file_okay=False, path_type=str),
+)
+def run_affiliate_deterministic_cmd(input_jsonl: str, output_dir: str) -> None:
+    import json
+    from pathlib import Path
+
+    from app.services.affiliate_ops import run_deterministic_pipeline
+
+    result = run_deterministic_pipeline(Path(input_jsonl), Path(output_dir))
+    click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+
+
 if __name__ == "__main__":
     app()

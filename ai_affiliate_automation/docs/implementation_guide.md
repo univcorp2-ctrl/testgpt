@@ -21,3 +21,8 @@
 3. `automation_config.yaml` で予算と禁止運用を設定
 4. まず ingest/normalize から実装し、LLMは最後に接続
 5. 公開は必ず QA を通し、リスク高は人手承認
+
+
+## 4. APIを使わずに進める実装フェーズ
+- `run-affiliate-deterministic` コマンドで、入力JSONLから正規化/重複排除/ContentSpec化までを機械処理できます。
+- この段階は外部API不要で、Codexデスクトップ上のローカル作業だけで進行可能です。
