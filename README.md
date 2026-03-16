@@ -18,6 +18,7 @@
 - `python -m app.cli export-csv`
 - `python -m app.cli doctor`
 - `python -m app.cli resume`
+- `PYTHONPATH=src python -m app.cli bootstrap-ai-affiliate`（AIアフィリエイト自動化の雛形生成）
 
 ## 実運用注意
 - `COMPLIANCE_APPROVED=true` まで crawl はロックされます。

@@ -1,0 +1,30 @@
+# AI Affiliate Automation settings
+project_name: ai-affiliate-media
+runtime_mode: deterministic_first
+storage:
+  db: sqlite:///./data/automation.db
+  evidence_root: ./workspace/evidence
+llm:
+  enabled: true
+  daily_budget_jpy: 5000
+  weekly_budget_jpy: 25000
+  call_policy:
+    summarize: small
+    synthesize: small
+    generation: high_quality
+    review: review
+  deterministic_first_threshold: 0.75
+channels:
+  social:
+    - x
+    - tiktok
+    - youtube_shorts
+    - instagram_reels
+  conversion:
+    - seo_lp
+    - newsletter
+risk_controls:
+  auto_dm: false
+  auto_comment: false
+  auto_follow_unfollow: false
+  require_human_review_for_high_risk: true

@@ -1,0 +1,9 @@
+# Prompt inventory
+# Keep business background and prompt templates separated.
+
+business_background_file: docs/business_background.md
+prompt_library_file: docs/prompt_library.md
+required_checks:
+  - no_hype_claims
+  - no_fake_testimonials
+  - route_to_owned_lp_before_affiliate

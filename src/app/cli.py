@@ -214,5 +214,18 @@ def show_query_plan_cmd() -> None:
     click.echo(json.dumps(build_query_shards(), ensure_ascii=False, indent=2))
 
 
+@app.command(name="bootstrap-ai-affiliate")
+@click.option("--base-dir", default=".", show_default=True, help="Scaffold output base directory")
+def bootstrap_ai_affiliate_cmd(base_dir: str) -> None:
+    from pathlib import Path
+
+    from app.services.ai_affiliate_scaffold import bootstrap_ai_affiliate_workspace
+
+    result = bootstrap_ai_affiliate_workspace(Path(base_dir))
+    click.echo(f"workspace: {result.root}")
+    click.echo(f"created directories: {len(result.created_dirs)}")
+    click.echo(f"created files: {len(result.created_files)}")
+
+
 if __name__ == "__main__":
     app()
