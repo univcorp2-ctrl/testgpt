@@ -214,5 +214,36 @@ def show_query_plan_cmd() -> None:
     click.echo(json.dumps(build_query_shards(), ensure_ascii=False, indent=2))
 
 
+@app.command(name="bootstrap-ai-affiliate")
+@click.option("--base-dir", default=".", show_default=True, help="Scaffold output base directory")
+def bootstrap_ai_affiliate_cmd(base_dir: str) -> None:
+    from pathlib import Path
+
+    from app.services.ai_affiliate_scaffold import bootstrap_ai_affiliate_workspace
+
+    result = bootstrap_ai_affiliate_workspace(Path(base_dir))
+    click.echo(f"workspace: {result.root}")
+    click.echo(f"created directories: {len(result.created_dirs)}")
+    click.echo(f"created files: {len(result.created_files)}")
+
+
+@app.command(name="run-affiliate-deterministic")
+@click.option("--input-jsonl", required=True, type=click.Path(exists=True, dir_okay=False, path_type=str))
+@click.option(
+    "--output-dir",
+    default="ai_affiliate_automation/runs",
+    show_default=True,
+    type=click.Path(file_okay=False, path_type=str),
+)
+def run_affiliate_deterministic_cmd(input_jsonl: str, output_dir: str) -> None:
+    import json
+    from pathlib import Path
+
+    from app.services.affiliate_ops import run_deterministic_pipeline
+
+    result = run_deterministic_pipeline(Path(input_jsonl), Path(output_dir))
+    click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+
+
 if __name__ == "__main__":
     app()
