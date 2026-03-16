@@ -1,0 +1,18 @@
+{
+  "theme": "AI agents should be regulated like critical infrastructure",
+  "turns": 10,
+  "providers": {
+    "chatgpt": {
+      "workspaceUrl": "https://chatgpt.com/",
+      "profileDir": "./profiles/chatgpt"
+    },
+    "claude": {
+      "workspaceUrl": "https://claude.ai/new",
+      "profileDir": "./profiles/claude"
+    },
+    "gemini": {
+      "workspaceUrl": "https://gemini.google.com/app",
+      "profileDir": "./profiles/gemini"
+    }
+  }
+}

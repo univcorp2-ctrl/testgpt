@@ -1,0 +1,16 @@
+{
+  "name": "tri-llm-debate-runner",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "test": "vitest run",
+    "lint": "echo 'lint placeholder'"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
+  }
+}

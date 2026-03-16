@@ -1,0 +1,21 @@
+{
+  "name": "@tri/runner",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@tri/adapters": "workspace:*",
+    "@tri/debate-engine": "workspace:*",
+    "@tri/shared": "workspace:*",
+    "@tri/store": "workspace:*",
+    "pino": "^9.6.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.3"
+  }
+}
