@@ -34,3 +34,6 @@
 - `DB_DSN`: PostgreSQL接続
 - `APP_ENCRYPTION_KEY`: セッション暗号化キー
 - `COMPLIANCE_APPROVED`: 規約レビュー後に true
+## 追加サンプル
+- `src/app/apple_stock_bot/`: Apple在庫監視 + Discord通知 + 手動購入補助の安全版サンプル（注文確定の自動化は含まない）
+
