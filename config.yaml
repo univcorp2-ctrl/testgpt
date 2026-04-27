@@ -1,0 +1,35 @@
+project_name: GeminiDailyAggregator
+timezone: Asia/Tokyo
+output:
+  reports_dir: reports
+  database_path: data/aggregator.sqlite
+gemini:
+  command: gemini
+  timeout_seconds: 180
+  max_chars_per_batch: 50000
+daily_research:
+  enabled: true
+  topics:
+    - name: AIエージェント開発
+      query: >
+        2026年時点のAIエージェント、Gemini CLI、Codex CLI、Claude Code、MCP、
+        ローカルLLM運用、無料または低コスト自動化の重要情報を調査して、
+        実務で使える情報だけ抽出してください。
+    - name: 不動産仕入れ・新築アパートVC
+      query: >
+        東京、神奈川、埼玉、千葉の新築アパート用地、ボリュームチェック、
+        北側斜線、木造3階共同住宅、長屋方式、利回り最大化に関する
+        実務的な情報を調査してまとめてください。
+    - name: 収益化・自動化ネタ
+      query: >
+        API課金を抑えたAI自動化、SNS運用、物販、不動産、求人調査、
+        データ収集で短期収益化につながる具体的な方法を調査してください。
+manual_inputs:
+  enabled: true
+  folders:
+    - inbox/manual_paste
+    - inbox/gemini_chat_exports
+    - inbox/raw
+sync:
+  enabled: false
+  google_drive_reports_dir: "G:\\マイドライブ\\AI_Agents\\reports\\GeminiDailyAggregator"
