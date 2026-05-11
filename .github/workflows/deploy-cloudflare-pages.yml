@@ -23,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: production
+    env:
+      CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CF_PAGES_PROJECT: ${{ secrets.CLOUDFLARE_PAGES_PROJECT }}
     steps:
       - uses: actions/checkout@v4
 
@@ -62,7 +66,19 @@ jobs:
             echo "deploy_dir=dist" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Check Cloudflare secrets
+        id: secrets_check
+        shell: bash
+        run: |
+          if [ -n "$CF_API_TOKEN" ] && [ -n "$CF_ACCOUNT_ID" ] && [ -n "$CF_PAGES_PROJECT" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Cloudflare secrets are not fully configured. Build step passed, deploy skipped." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Deploy to Cloudflare Pages
+        if: steps.secrets_check.outputs.ready == 'true'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -74,5 +90,6 @@ jobs:
         run: |
           echo "## Cloudflare Pages Deploy" >> "$GITHUB_STEP_SUMMARY"
           echo "- Deploy directory: ${{ steps.detect.outputs.deploy_dir }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Secrets ready: ${{ steps.secrets_check.outputs.ready }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- Required secrets: CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_PAGES_PROJECT" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Check the Cloudflare Pages dashboard for the final deployment URL." >> "$GITHUB_STEP_SUMMARY"
+          echo "- If secrets are missing, deploy is intentionally skipped instead of failing." >> "$GITHUB_STEP_SUMMARY"
