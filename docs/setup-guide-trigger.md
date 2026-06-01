@@ -1,3 +1,5 @@
 # README setup guide trigger
 
-This file intentionally triggers `.github/workflows/readme-setup-guide.yml` after the workflow has been installed.
+Triggered after workflow path fix.
+
+Run: 2026-06-01T13:35:00Z
