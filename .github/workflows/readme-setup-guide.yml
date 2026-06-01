@@ -6,6 +6,7 @@ on:
     branches:
       - main
     paths:
+      - docs/setup-guide-trigger.md
       - docs/assets/readme-setup-guide.svg
       - docs/setup-visual-guide.md
       - docs/image-generation-prompts.md
