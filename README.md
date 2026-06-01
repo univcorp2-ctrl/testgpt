@@ -20,8 +20,6 @@
 > SecretやAPIキーの実値は、README、Issue、ログ、画像に絶対に貼らないでください。例では `********` または `YOUR_SECRET_HERE` を使います。
 
 <!-- AI_README_SETUP_GUIDE_END -->
-
-
 # GeminiDailyAggregator (Windows / API追加課金ゼロ構成)
 
 Gemini CLI（Googleログイン方式）と、手動保存したファイル（md/txt/html/json/csv）を集約して、
